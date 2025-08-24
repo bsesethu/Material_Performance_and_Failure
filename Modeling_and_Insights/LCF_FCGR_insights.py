@@ -1,10 +1,3 @@
-# =========================
-# 3) FATIGUE CURVE MODELING (LCF)
-#    Coffin–Manson split:
-#    ε_p,a = ε_f' * (2N)^c      (plastic term)
-#    ε_e,a = (σ_f'/E) * (2N)^b  (elastic/Basquin-like term)
-#    ε_t,a ≈ ε_p,a + ε_e,a
-# =========================
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -21,8 +14,6 @@ df2 = xls.parse('LCF individual dataset')
 
 # Merge datasets on ID
 df_lcf = pd.merge(df1, df2, on="ID", how="left")
-
-print(df_lcf.info())
 
 # Clean up column names: strip spaces and replace multiple spaces with single space NOTE Really important function
 df_lcf.columns = df_lcf.columns.str.strip().str.replace(r'\s+', ' ', regex=True)
@@ -45,68 +36,6 @@ print(df_fit.info())
 df_fit = df_fit.replace([np.inf, -np.inf], np.nan)
 df_fit = df_fit.dropna(subset=["N", "eps_total", "eps_plastic", "eps_elastic"])
 df_fit = df_fit[(df_fit["N"] > 0) & (df_fit["eps_plastic"] > 0) & (df_fit["eps_elastic"] > 0)]
-
-# Helper: linear fit on log10(y) = a + b*log10(x)
-def loglog_fit(x, y):
-    xlog = np.log10(x)
-    ylog = np.log10(y)
-    # polyfit degree 1 -> slope, intercept
-    slope, intercept = np.polyfit(xlog, ylog, 1)
-    # R^2 on log space
-    yhat = intercept + slope * xlog
-    ss_res = np.sum((ylog - yhat)**2)
-    ss_tot = np.sum((ylog - np.mean(ylog))**2)
-    r2 = 1 - ss_res/ss_tot if ss_tot > 0 else np.nan
-    return slope, intercept, r2
-
-# Fit plastic term: ε_p,a = ε_f' * (2N)^c
-c_slope, c_inter, c_r2 = loglog_fit(2*df_fit["N"].values, df_fit["eps_plastic"].values)
-# Fit elastic term: ε_e,a = K * (2N)^b  where K = σ_f'/E (lumped constant)
-b_slope, b_inter, b_r2 = loglog_fit(2*df_fit["N"].values, df_fit["eps_elastic"].values)
-
-# Extract parameters
-# In log10 space: log10(ε_p,a) = log10(ε_f') + c * log10(2N)
-eps_f_prime = 10**(c_inter)        # plastic fatigue ductility coefficient (approx)
-c_exp = c_slope                    # plastic fatigue ductility exponent
-
-# Elastic/Basquin-like term: log10(ε_e,a) = log10(K) + b*log10(2N)
-K_elastic = 10**(b_inter)          # K = σ_f'/E (lumped)
-b_exp = b_slope
-
-print("=== Coffin–Manson Split Fits (LCF) ===")
-print(f"Plastic term:   ε_plastic,a = {eps_f_prime:.3e} * (2N)^{c_exp:.3f}   | R^2_log = {c_r2:.3f}") # Plastic and elastic amplitude
-print(f"Elastic term:   ε_elastic,a = {K_elastic:.3e} * (2N)^{b_exp:.3f}     | R^2_log = {b_r2:.3f}")
-
-# Plot ε_p,a and ε_e,a vs 2N (log-log) with fit lines
-N_grid = np.logspace(np.log10((2*df_fit["N"]).min()),
-                     np.log10((2*df_fit["N"]).max()), 200)
-
-eps_p_pred = eps_f_prime * (N_grid**c_exp)
-eps_e_pred = K_elastic   * (N_grid**b_exp)
-eps_t_pred = eps_p_pred + eps_e_pred
-
-plt.figure(figsize=(10,7))
-plt.scatter(2*df_fit["N"], df_fit["eps_plastic"], s=30, alpha=0.7, label="ε_plastic,a data", edgecolor='none')
-plt.scatter(2*df_fit["N"], df_fit["eps_elastic"], s=30, alpha=0.7, label="ε_elastic,a data", edgecolor='none')
-plt.plot(N_grid, eps_p_pred, linewidth=2, label="ε_plastic,a fit")
-plt.plot(N_grid, eps_e_pred, linewidth=2, label="ε_elastic,a fit")
-plt.xscale('log'); plt.yscale('log')
-plt.xlabel("2N (reversals)"); plt.ylabel("Strain amplitude")
-plt.title("LCF Coffin–Manson Split Fits")
-plt.legend()
-plt.tight_layout()
-plt.show()
-
-# Compare total strain amplitude to the sum of fitted components
-plt.figure(figsize=(10,7))
-plt.scatter(2*df_fit["N"], df_fit["eps_total"], s=30, alpha=0.7, label="ε_total,a data", edgecolor='none') # a is amplitude
-plt.plot(N_grid, eps_t_pred, linewidth=2, label="ε_total,a model = ε_plastic,a + ε_elastic,a")
-plt.xscale('log'); plt.yscale('log')
-plt.xlabel("2N (reversals)"); plt.ylabel("Total strain amplitude (ε_total,a)")
-plt.title("Total Strain vs Reversals with Coffin–Manson Composite")
-plt.legend()
-plt.tight_layout()
-plt.show()
 
 # =========================
 # 4) (OPTIONAL) CRACK GROWTH RATE (Paris Law) IF FCGR SHEET EXISTS
