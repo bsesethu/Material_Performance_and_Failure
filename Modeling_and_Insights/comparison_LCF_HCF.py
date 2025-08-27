@@ -30,3 +30,30 @@ plt.tight_layout()
 plt.show() # Is this a useful plot, I'm not so sure
 
 
+print('Info')
+print(df_lcf_clean.info(), df_hcf_clean.info())
+# Create a figure with two subplots
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 7))
+
+# Plot LCF data (Strain vs. log_cycles)
+sns.regplot(x='log_cycles', y='eps_total', data=df_lcf_clean, ax=ax1,
+            scatter_kws={'alpha':0.6, 's':80, 'color':'#0077b6'},
+            line_kws={'color':'#d62728', 'linewidth':3})
+ax1.set_title('LCF: Strain-Based Behavior (Inconel X-750)', fontsize=16, pad=20) # Inconel is NiCr+ alloy
+ax1.set_xlabel('Log (Cycles to Failure)', fontsize=12)
+ax1.set_ylabel('Strain Amplitude', fontsize=12)
+ax1.grid(True, which='both', linestyle='--', linewidth=0.5)
+
+# Plot HCF data (Stress vs. log_cycles)
+sns.regplot(x='log_cycles', y='Stress amplitude (MPa)', data=df_hcf_clean, ax=ax2,
+            scatter_kws={'alpha':0.6, 's':80, 'color':'#2ca02c'},
+            line_kws={'color':'#ff7f0e', 'linewidth':3})
+ax2.set_title('HCF: Stress-Based Behavior (Two Ni-Superalloys)', fontsize=16, pad=20)
+ax2.set_xlabel('Log (Cycles to Failure)', fontsize=12)
+ax2.set_ylabel('Stress Amplitude (MPa)', fontsize=12)
+ax2.grid(True, which='both', linestyle='--', linewidth=0.5)
+
+plt.tight_layout()
+plt.show()
+
+
