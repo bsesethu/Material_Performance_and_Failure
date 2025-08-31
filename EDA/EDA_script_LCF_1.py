@@ -99,6 +99,7 @@ print("Mechanical Properties vs Life Correlation:\n", mechanical_life_corr, "\n"
 plt.figure(figsize=(10, 6))
 sns.heatmap(df_lcf.select_dtypes(include=[np.number]).corr(), annot=True, cmap='coolwarm')
 plt.title("Correlation Heatmap (Numeric Features)")
+plt.tight_layout()
 plt.show()
 
 df_lcf['Grain size (um)'] = df_lcf['Grain size (um)'].astype(int)
