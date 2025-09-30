@@ -90,7 +90,7 @@ X_hcf = df_model_clean.drop(columns=["log_cycles"])
 y_hcf = df_model_clean["log_cycles"]
 
 # Change some column names
-df_lcf['strain_total'] = df_lcf['eps_total']
+df_lcf['strain_total'] = df_lcf['eps_total'] # eps = epsilon = strain
 df_lcf['strain_plastic'] = df_lcf['eps_plastic']
 df_lcf['strain_elastic'] = df_lcf['eps_elastic']
 
@@ -151,3 +151,5 @@ axes[0].invert_yaxis()
 axes[1].invert_yaxis()
 plt.tight_layout()
 plt.show()
+
+
