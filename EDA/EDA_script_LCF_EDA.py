@@ -20,41 +20,24 @@ plt.rcParams["figure.figsize"] = (10, 6)
 
 # 2. Load the cleaned dataset
 # Replace with your cleaned file
-df = pd.read_csv("Cleaning\cleaned_student_data.csv")
+df = pd.read_csv("cleaned_student_data.csv")
 
 # Drop column
 df.drop('Unnamed: 0', axis= 1, inplace= True)
 
-# 3. Quick Overview
-print("----- BASIC INFO -----")
-print(df.info())
-print("\n----- FIRST 5 ROWS -----")
-print(df.head())
-print("\n----- SHAPE -----")
-print(df.shape)
-print("\n----- DUPLICATES -----")
-print(df.duplicated().sum())
-
-# 4. Descriptive Statistics
-print("\n----- DESCRIPTIVE STATS -----")
-print(df.describe(include='all'))
-
-# 5. Missing Values
-print("\n----- MISSING VALUES -----")
-print(df.isnull().sum())
-
-# 6. Univariate Analysis (Distribution of numerical features)
-numeric_cols = df.select_dtypes(include=np.number).columns
-for col in numeric_cols:
-    plt.figure()
-    sns.histplot(df[col], kde=True, bins=30, color="skyblue")
-    plt.title(f"Distribution of {col}")
-    plt.xlabel(col)
-    plt.ylabel("Frequency")
-    plt.show()
+# 6. Univariate Analysis (Distribution of numerical features) #NOTE already done in cleaning_LCF.py Here it's just more focused
+# numeric_cols = df.select_dtypes(include=np.number).columns
+# for col in numeric_cols:
+#     plt.figure()
+#     sns.histplot(df[col], kde=True, bins=30, color="skyblue")
+#     plt.title(f"Distribution of {col}")
+#     plt.xlabel(col)
+#     plt.ylabel("Frequency")
+#     plt.show()
 
 # 7. Categorical Feature Counts
 categorical_cols = df.select_dtypes(exclude=np.number).columns
+numeric_cols = df.select_dtypes(include=np.number).columns
 for col in categorical_cols:
     plt.figure()
     sns.countplot(data=df, x=col, palette="Set2")
