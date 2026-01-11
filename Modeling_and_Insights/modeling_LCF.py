@@ -4,16 +4,19 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
+from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error, accuracy_score
 
 # Load LCF data
 df_lcf = pd.read_csv("lcf_clean.csv")
 print(df_lcf.info())
 
 # ========== Define Features & Target ==========
+# Include features with r >= 0.2 abs
 features = [
-    "Max. strain", "eps_total", "eps_plastic", "eps_elastic", "Elastic_to_Total_Strain", 
-    "Plastic_to_Total_Strain" # "Strain×Temp", "Strain/Temp", "Strain Ratio" # Add later mb
+    "ID", "Tensile YS (MPa)", "UTS (MPa)", "Elongation to failure",
+    "Tesing temperature (K)", "Total strain amplitude", # Can't use 'Number of cycles' as a feature
+    "Max. strain", "Plastic strain amplitude", "Elastic strain amplitude", 
+    "Elastic_to_Total_Strain", "Plastic_to_Total_Strain", "Estimated_Stress_Amplitude", "Strain_Energy_Density" #Too many nulls 
 ]
 target = "log_cycles"
 
@@ -55,4 +58,4 @@ results = [
 results_df = pd.DataFrame(results)
 print("\n🔍 Model Performance on LCF Dataset:\n")
 print(results_df)
-print('Random Forest is the better model')
+print('Linear Regression is the better model')
