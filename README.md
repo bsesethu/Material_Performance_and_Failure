@@ -1,11 +1,13 @@
 # 📊Material Performance and Failure Analysis
-Project Overview
+
+## Project Overview
 
 This project investigates material fatigue behaviour across Low-Cycle Fatigue (LCF) and High-Cycle Fatigue (HCF) regimes using a combination of classical materials engineering theory and data-driven modelling techniques.
 
 The objective is to analyse experimental fatigue data, extract meaningful engineering insights, and evaluate the applicability and limitations of regression and machine learning models in predicting fatigue life.
 
-Key Objectives
+
+## Key Objectives
 
 Analyse fatigue behaviour in LCF and HCF regimes
 
@@ -19,7 +21,8 @@ Compare predictive performance across fatigue regimes
 
 Assess the limitations of data-driven models in physical systems
 
-Dataset Description
+
+## Dataset Description
 
 The project uses cleaned experimental fatigue datasets, including:
 
@@ -31,16 +34,19 @@ All datasets were preprocessed to remove inconsistencies, handle missing values,
 
 Project Structure
 ├── lcf_clean.csv                  # Cleaned LCF dataset
+
 ├── hcf_clean.csv                  # Cleaned HCF dataset
+
 ├── all_in_one_Clean_nEDA.py        # Data cleaning and exploratory data analysis
+
 ├── all_in_one_modelling.py         # Model building and evaluation
-├── Report_final.docx               # Final project report (Word)
+
 ├── Report_final.pdf                # Final project report (PDF)
-├── .venv/                          # Virtual environment (excluded from version control)
+
 └── README.md                       # Project documentation
 
-Methodology
-1. Data Preparation & Exploration
+## Methodology
+###1. Data Preparation & Exploration
 
 Data cleaning and feature validation
 
@@ -48,7 +54,7 @@ Univariate, bivariate, and correlation analysis
 
 Regime-specific exploration for LCF and HCF
 
-2. Modelling
+###2. Modelling
 
 LCF:
 
@@ -64,7 +70,7 @@ Basquin-type stress–life modelling
 
 Comparison with ensemble methods
 
-3. Model Evaluation
+###3. Model Evaluation
 
 Train–test split (80/20)
 
@@ -76,7 +82,8 @@ RMSE (secondary)
 
 Assessment of model saturation and diminishing returns
 
-Key Findings
+
+## Key Findings
 
 LCF behaviour is well-structured and strain-dominated, allowing classical fatigue theory to be captured effectively using regression models.
 
@@ -96,7 +103,8 @@ Matplotlib, Seaborn
 
 scikit-learn
 
-Limitations
+
+## Limitations
 
 Experimental scatter, particularly in HCF data
 
@@ -104,7 +112,8 @@ Limited control over external variables (e.g. temperature, microstructure)
 
 Predictive models should be interpreted as decision-support tools, not absolute predictors
 
-Future Work
+
+## Future Work
 
 More controlled experimental datasets
 
@@ -114,7 +123,8 @@ Incorporation of microstructural descriptors
 
 Physics-informed or hybrid modelling approaches
 
-Author
 
-Sesethu (Matt) Bango
-Mechanical Engineering & Data Science
+## Author
+
+Sesethu M Bango
+Engineering-Informed Data Scientist
