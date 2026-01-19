@@ -94,7 +94,7 @@ Increasing model complexity does not necessarily improve performance in physical
 
 Data-driven models are most effective when guided by strong domain knowledge.
 
-Tools & Technologies
+## Tools & Technologies
 
 Python
 
