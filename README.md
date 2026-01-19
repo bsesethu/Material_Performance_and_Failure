@@ -33,6 +33,7 @@ HCF dataset: Stress-controlled fatigue data with stress amplitude, frequency, an
 All datasets were preprocessed to remove inconsistencies, handle missing values, and ensure modelling readiness.
 
 Project Structure
+
 ├── lcf_clean.csv                  # Cleaned LCF dataset
 
 ├── hcf_clean.csv                  # Cleaned HCF dataset
@@ -46,7 +47,7 @@ Project Structure
 └── README.md                       # Project documentation
 
 ## Methodology
-###1. Data Preparation & Exploration
+### 1. Data Preparation & Exploration
 
 Data cleaning and feature validation
 
@@ -54,7 +55,7 @@ Univariate, bivariate, and correlation analysis
 
 Regime-specific exploration for LCF and HCF
 
-###2. Modelling
+### 2. Modelling
 
 LCF:
 
@@ -70,7 +71,7 @@ Basquin-type stress–life modelling
 
 Comparison with ensemble methods
 
-###3. Model Evaluation
+### 3. Model Evaluation
 
 Train–test split (80/20)
 
