@@ -5,6 +5,7 @@ import numpy as np
 from scipy import stats
 import itertools
 from scipy.stats import linregress
+from pandas.api.types import is_numeric_dtype
 
 
 #============================================================================================
@@ -425,6 +426,15 @@ print('\nHCF individual dataset', df2.info())
 # Assume df1 = HCF summary dataset, df2 = HCF individual dataset
 # Merge on ID
 df_hcf = pd.merge(df2, df1, on='ID', how='left')
+
+# Univariate analysis
+# Create histograms of each columns distribution
+for col in df_hcf.columns:
+    if is_numeric_dtype(df_hcf[col]):
+        plt.hist(df_hcf[col])
+        plt.xlabel(col)
+        plt.title(f'Distribution of {col}')
+        plt.show()
 
 # print('\nHCF Info:', df_hcf.info())
 
